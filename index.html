@@ -1007,6 +1007,36 @@
         // Add dynamic number counting animation
         function animateValue(element, start, end, duration) {
             let startTimestamp = null;
+            const originalText = element.textContent;
+            
+            // Handle currency values like $1.83B
+            if (originalText.includes('
+    </script>
+</body>
+</html>) && originalText.includes('B')) {
+                // For $1.83B, just show it as is without animation
+                return;
+            }
+            
+            // Handle percentage values like 24.64%
+            if (originalText.includes('%')) {
+                const numValue = parseFloat(originalText.replace('%', ''));
+                if (!isNaN(numValue)) {
+                    const step = (timestamp) => {
+                        if (!startTimestamp) startTimestamp = timestamp;
+                        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                        const current = (progress * numValue).toFixed(2);
+                        element.innerHTML = current + '%';
+                        if (progress < 1) {
+                            window.requestAnimationFrame(step);
+                        }
+                    };
+                    window.requestAnimationFrame(step);
+                }
+                return;
+            }
+            
+            // Handle regular numbers
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
@@ -1025,7 +1055,10 @@
                 if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
                     const number = entry.target.querySelector('.number');
                     const value = number.textContent.replace(/[^0-9.]/g, '');
-                    if (value && !isNaN(value)) {
+                    if (value && !isNaN(value) && !number.textContent.includes('
+    </script>
+</body>
+</html>) && !number.textContent.includes('B')) {
                         animateValue(number, 0, parseInt(value), 2000);
                     }
                     entry.target.classList.add('animated');
