@@ -3,865 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loan Default Risk Analysis - Professional Portfolio</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Bank Credit Risk Reporting System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            background-color: #f5f7fa;
             color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
         }
-
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
         }
-
-        .header {
+        h1 {
             text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .header .subtitle {
-            font-size: 1.3rem;
-            color: #666;
-            font-weight: 400;
-            margin-bottom: 20px;
-        }
-
-        .author-info {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 2px solid #eee;
-        }
-
-        .author-info h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        .author-info p {
-            color: #666;
-            font-size: 1.1rem;
-            margin: 5px 0;
-        }
-
-        .contact-info {
-            color: #667eea;
-            font-size: 1rem;
-            font-weight: 500;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-top: 4px solid transparent;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        .stat-card .icon {
+            color: #2c3e50;
+            margin-bottom: 2rem;
             font-size: 2.5rem;
-            margin-bottom: 15px;
         }
-
-        .stat-card .number {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            line-height: 1;
-        }
-
-        .stat-card .label {
-            font-size: 1rem;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
-        }
-
-        .stat-card.loans { border-top-color: #4CAF50; }
-        .stat-card.loans .icon { color: #4CAF50; }
-        .stat-card.loans .number { color: #4CAF50; }
-
-        .stat-card.default-rate { border-top-color: #FF5722; }
-        .stat-card.default-rate .icon { color: #FF5722; }
-        .stat-card.default-rate .number { color: #FF5722; }
-
-        .stat-card.high-risk { border-top-color: #FF9800; }
-        .stat-card.high-risk .icon { color: #FF9800; }
-        .stat-card.high-risk .number { color: #FF9800; }
-
-        .stat-card.prevention { border-top-color: #2196F3; }
-        .stat-card.prevention .icon { color: #2196F3; }
-        .stat-card.prevention .number { color: #2196F3; }
-
         .section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 35px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        .section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 25px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            font-weight: 600;
-        }
-
-        .section h3 {
-            font-size: 1.4rem;
-            margin: 25px 0 15px 0;
-            color: #555;
-            font-weight: 600;
-        }
-
-        .section-icon {
-            font-size: 1.8rem;
-            color: #667eea;
-        }
-
-        .findings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-
-        .finding-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 12px;
-            padding: 25px;
-            border-left: 5px solid #667eea;
-            transition: transform 0.3s ease;
-        }
-
-        .finding-card:hover {
-            transform: translateX(5px);
-        }
-
-        .finding-card h4 {
-            color: #333;
-            margin-bottom: 12px;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .finding-card p {
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .model-comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin: 25px 0;
-        }
-
-        .model-card {
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid transparent;
-            transition: transform 0.3s ease;
-        }
-
-        .model-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .model-card.lr {
-            background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
-            border-color: #fb923c;
-        }
-
-        .model-card.rf {
-            background: linear-gradient(135deg, #f0fdf4 0%, #bbf7d0 100%);
-            border-color: #22c55e;
-        }
-
-        .model-card h4 {
-            margin-bottom: 20px;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .model-metric {
-            background: rgba(255, 255, 255, 0.8);
-            padding: 12px;
-            border-radius: 8px;
-            margin: 12px 0;
-            font-weight: 500;
-        }
-
-        .recommendations {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
-        }
-
-        .recommendation-card {
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 5px solid;
-            transition: transform 0.3s ease;
-        }
-
-        .recommendation-card:hover {
-            transform: translateX(8px);
-        }
-
-        .recommendation-card h4 {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .recommendation-card.high {
-            background: linear-gradient(135deg, #fef2f2 0%, #fecaca 100%);
-            border-left-color: #dc2626;
-        }
-
-        .recommendation-card.medium {
-            background: linear-gradient(135deg, #fffbeb 0%, #fde68a 100%);
-            border-left-color: #d97706;
-        }
-
-        .recommendation-card.low {
-            background: linear-gradient(135deg, #f0f9ff 0%, #bfdbfe 100%);
-            border-left-color: #2563eb;
-        }
-
-        .feature-importance {
-            background: linear-gradient(135deg, #faf5ff 0%, #e879f9 20%);
-            border-radius: 12px;
-            padding: 25px;
-            margin: 25px 0;
-        }
-
-        .feature-bar {
-            display: flex;
-            align-items: center;
-            margin: 15px 0;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
             border-radius: 10px;
-            transition: transform 0.2s ease;
+            background-color: #fafafa;
+            border-left: 6px solid #3498db;
         }
-
-        .feature-bar:hover {
-            transform: translateX(5px);
+        .section h2 {
+            color: #3498db;
+            margin-bottom: 1rem;
+            font-size: 1.6rem;
         }
-
-        .feature-name {
-            flex: 1;
-            font-weight: 600;
-            color: #333;
-            font-size: 1.05rem;
+        .section h3 {
+            margin-top: 1rem;
+            color: #2c3e50;
+            font-size: 1.2rem;
         }
-
-        .feature-value {
-            background: #667eea;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-left: 15px;
+        ul {
+            list-style: none;
+            padding-left: 0;
         }
-
-        .risk-categories {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin: 25px 0;
+        ul li {
+            padding-left: 1.8rem;
+            position: relative;
+            margin-bottom: 0.75rem;
         }
-
-        .risk-card {
-            text-align: center;
-            padding: 25px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 500;
-            transition: transform 0.3s ease;
+        ul li::before {
+            content: '\f058';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #27ae60;
         }
-
-        .risk-card:hover {
-            transform: translateY(-5px);
+        .highlight {
+            background: #eaf6ff;
+            padding: 1rem;
+            border-left: 5px solid #3498db;
+            margin: 1rem 0;
+            border-radius: 8px;
         }
-
-        .risk-card h4 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
+        .key-metric {
+            display: inline-block;
+            background: #27ae60;
+            color: #fff;
+            padding: 0.3rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
         }
-
-        .risk-card p {
-            margin: 5px 0;
-            font-size: 1rem;
-        }
-
-        .risk-card.low { background: linear-gradient(135deg, #16a34a, #15803d); }
-        .risk-card.medium { background: linear-gradient(135deg, #ea580c, #c2410c); }
-        .risk-card.high { background: linear-gradient(135deg, #dc2626, #b91c1c); }
-        .risk-card.very-high { background: linear-gradient(135deg, #991b1b, #7f1d1d); }
-
-        .impact-highlight {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            margin: 30px 0;
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
-        }
-
-        .impact-highlight h3 {
-            font-size: 2.2rem;
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        .impact-highlight p {
-            font-size: 1.3rem;
-            opacity: 0.95;
-            line-height: 1.6;
-            margin-bottom: 25px;
-        }
-
-        .impact-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .impact-metric {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
-        }
-
-        .impact-metric h4 {
-            font-size: 2.5rem;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-
-        .impact-metric p {
-            opacity: 0.9;
-            font-size: 1rem;
-            margin: 0;
-        }
-
         .tech-stack {
+            background: #f0f4f8;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+        .tech-stack span {
+            display: inline-block;
+            background: #3498db;
+            color: #fff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            margin: 0.2rem;
+            font-size: 0.9rem;
+        }
+        .section-icon {
+            margin-right: 0.5rem;
+            color: #3498db;
+        }
+        .challenges {
+            background: #fff3cd;
+            border-left-color: #f1c40f;
+        }
+        .results {
+            background: #e8f5e9;
+            border-left-color: #2ecc71;
+        }
+        .conclusion {
+            background: #edf2f7;
+            border-left-color: #2c3e50;
+        }
+        .metric-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
-            margin: 25px 0;
+            gap: 1rem;
+            margin: 1rem 0;
         }
-
-        .tech-badge {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 25px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: transform 0.2s ease;
-        }
-
-        .tech-badge:hover {
-            transform: translateY(-2px);
-        }
-
-        .highlight-box {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            padding: 25px;
-            border-radius: 12px;
-            margin: 25px 0;
-            border-left: 5px solid #0ea5e9;
-        }
-
-        .highlight-box h4 {
-            color: #0369a1;
-            margin-bottom: 12px;
-            font-size: 1.2rem;
-        }
-
-        .highlight-box p {
-            color: #333;
-            font-style: italic;
-            line-height: 1.6;
-        }
-
-        .footer {
+        .metric {
+            flex: 1 1 200px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
             text-align: center;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            padding: 40px;
-            margin-top: 30px;
-            backdrop-filter: blur(10px);
+            border: 1px solid #e0e0e0;
         }
-
-        .footer h3 {
-            font-size: 2rem;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
-        .footer p {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 25px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 28px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: #667eea;
-            border: 2px solid #667eea;
-        }
-
-        .btn-secondary:hover {
-            background: #667eea;
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .professional-conclusion {
-            border: 2px solid #667eea;
-            background: linear-gradient(135deg, #f8f9ff 0%, #e8eeff 100%);
-        }
-
-        .conclusion-summary {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            margin: 25px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        .value-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-
-        .value-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 5px solid;
-        }
-
-        .value-card.green { border-left-color: #22c55e; }
-        .value-card.blue { border-left-color: #3b82f6; }
-
-        .value-card h4 {
-            margin-bottom: 15px;
-            font-size: 1.2rem;
-        }
-
-        .value-card ul {
+        .metric h4 {
             margin: 0;
-            padding-left: 20px;
+            font-size: 1.5rem;
+            color: #2c3e50;
         }
-
-        .value-card li {
-            margin: 8px 0;
+        .metric p {
+            margin: 0.5rem 0 0;
+            font-size: 0.9rem;
             color: #555;
         }
-
-        .author-highlight {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 12px;
-            margin: 30px 0;
-            text-align: center;
+        .professional-conclusion {
+            background: #f4f9f9;
+            border-left-color: #16a085;
         }
-
-        .author-highlight h3 {
-            margin-bottom: 15px;
-            font-size: 1.8rem;
-        }
-
-        .author-details {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .competencies {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin: 25px 0;
-            text-align: center;
-            border: 1px solid #e5e7eb;
-        }
-
-        .competency-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        .competency-tag {
-            background: #f3f4f6;
-            padding: 10px 18px;
-            border-radius: 25px;
-            color: #374151;
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        @media (max-width: 768px) {
-            .header h1 { font-size: 2.2rem; }
-            .model-comparison { grid-template-columns: 1fr; }
-            .container { padding: 15px; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .cta-buttons { flex-direction: column; align-items: center; }
-            .author-details { flex-direction: column; gap: 20px; }
+        .conclusion-summary {
+            background: #fff;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            border: 1px solid #e0e0e0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1><i class="fas fa-chart-line"></i> Loan Default Risk Analysis</h1>
-            <p class="subtitle">Advanced Credit Risk Analytics & Predictive Modeling for Financial Institutions</p>
-            <div class="author-info">
-                <h3>Arshia Kosha</h3>
-                <p>Financial Risk Analysis Overview</p>
-                <p class="contact-info"><i class="fas fa-envelope"></i> arshia.kosha81@gmail.com</p>
-            </div>
-        </div>
-
-        <!-- Key Statistics -->
-        <div class="stats-grid">
-            <div class="stat-card loans">
-                <div class="icon"><i class="fas fa-database"></i></div>
-                <div class="number">148,670</div>
-                <div class="label">Total Loans Analyzed</div>
-            </div>
-            <div class="stat-card default-rate">
-                <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
-                <div class="number">24.64%</div>
-                <div class="label">Current Default Rate</div>
-            </div>
-            <div class="stat-card high-risk">
-                <div class="icon"><i class="fas fa-shield-alt"></i></div>
-                <div class="number">36,638</div>
-                <div class="label">High-Risk Loans Identified</div>
-            </div>
-            <div class="stat-card prevention">
-                <div class="icon"><i class="fas fa-dollar-sign"></i></div>
-                <div class="number">$1.83B</div>
-                <div class="label">Potential Loss Prevention</div>
-            </div>
-        </div>
+        <h1><i class="fas fa-university"></i> Bank Credit Risk Reporting System</h1>
 
         <!-- Project Overview -->
         <div class="section">
-            <h2><i class="fas fa-clipboard-list section-icon"></i> Executive Summary</h2>
-            <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 20px;">This comprehensive credit risk analysis demonstrates advanced application of machine learning and statistical methods to predict loan defaults across a portfolio of 148,670 loans. The analysis reveals critical risk factors and provides actionable insights that could prevent $1.83 billion in potential losses while maintaining strategic business objectives.</p>
-            
-            <div class="highlight-box">
-                <h4><i class="fas fa-bullseye"></i> Business Value Proposition</h4>
-                <p>"Transforming raw financial data into strategic risk insights that protect institutional capital while optimizing lending opportunities through predictive analytics and evidence-based decision frameworks."</p>
+            <h2><i class="fas fa-lightbulb section-icon"></i> Project Overview</h2>
+            <p>
+                Spearheaded the design and development of an <strong>enterprise-wide credit risk reporting system</strong> 
+                for a major financial institution, addressing growing demands for <strong>risk transparency, regulatory compliance, 
+                and executive decision-making</strong>.
+            </p>
+        </div>
+
+        <!-- Key Responsibilities -->
+        <div class="section">
+            <h2><i class="fas fa-tasks section-icon"></i> Key Responsibilities</h2>
+            <ul>
+                <li>Designed <strong>automated reporting workflows</strong> replacing manual processes.</li>
+                <li>Developed <strong>ETL pipelines</strong> for integrating multi-source financial data.</li>
+                <li>Implemented <strong>real-time risk dashboards</strong> for executive decision-making.</li>
+                <li>Collaborated with compliance teams to ensure <strong>Basel III & IFRS 9 alignment</strong>.</li>
+                <li>Optimized <strong>data quality frameworks</strong> improving accuracy by 35%.</li>
+            </ul>
+        </div>
+
+        <!-- Challenges -->
+        <div class="section challenges">
+            <h2><i class="fas fa-warning section-icon"></i> Challenges</h2>
+            <ul>
+                <li>Data silos across multiple banking systems created integration issues.</li>
+                <li>Legacy infrastructure limited scalability and performance.</li>
+                <li>Regulatory requirements demanded <strong>audit-ready traceability</strong>.</li>
+            </ul>
+        </div>
+
+        <!-- Solutions -->
+        <div class="section">
+            <h2><i class="fas fa-cogs section-icon"></i> Solutions Implemented</h2>
+            <div class="highlight">
+                <strong>Centralized Data Warehouse</strong>: Consolidated credit risk exposure, default probabilities, and capital adequacy metrics.
             </div>
-            
-            <h3><i class="fas fa-tools"></i> Technical Proficiencies Demonstrated</h3>
+            <div class="highlight">
+                <strong>Regulatory Compliance Automation</strong>: Built templates for IFRS 9 staging and Basel III reporting.
+            </div>
+            <div class="highlight">
+                <strong>Visualization & Insights</strong>: Designed dashboards using <em>Power BI</em> for executive leadership.
+            </div>
             <div class="tech-stack">
-                <span class="tech-badge"><i class="fab fa-python"></i> Python</span>
-                <span class="tech-badge">Pandas</span>
-                <span class="tech-badge">Scikit-learn</span>
-                <span class="tech-badge">Statistical Analysis</span>
-                <span class="tech-badge">Risk Modeling</span>
-                <span class="tech-badge">Data Visualization</span>
-                <span class="tech-badge">Regulatory Compliance</span>
-                <span class="tech-badge">Credit Scoring</span>
-                <span class="tech-badge">Portfolio Analytics</span>
+                <strong>Tech Stack:</strong>
+                <span>Python</span>
+                <span>SQL Server</span>
+                <span>Power BI</span>
+                <span>ETL Pipelines</span>
+                <span>Excel VBA</span>
             </div>
         </div>
 
-        <!-- Key Findings -->
-        <div class="section">
-            <h2><i class="fas fa-search section-icon"></i> Critical Risk Intelligence</h2>
-            <div class="findings-grid">
-                <div class="finding-card">
-                    <h4><i class="fas fa-chart-pie"></i> Portfolio Risk Profile</h4>
-                    <p>Comprehensive analysis of 34 risk variables across 148,670 loan accounts reveals significant opportunity for risk-adjusted returns optimization. Current 24.64% default rate indicates substantial room for improvement through predictive modeling.</p>
+        <!-- Results -->
+        <div class="section results">
+            <h2><i class="fas fa-chart-line section-icon"></i> Results & Business Impact</h2>
+            <div class="metric-container">
+                <div class="metric">
+                    <h4>45%</h4>
+                    <p>Improved reporting efficiency</p>
                 </div>
-                <div class="finding-card">
-                    <h4><i class="fas fa-crosshairs"></i> Predictive Risk Drivers</h4>
-                    <p>Interest rate spread (31.5% model importance) and upfront charges (26.6%) emerge as primary default predictors, suggesting pricing strategy directly impacts credit risk exposure and portfolio performance.</p>
+                <div class="metric">
+                    <h4>35%</h4>
+                    <p>Increased data accuracy</p>
                 </div>
-                <div class="finding-card">
-                    <h4><i class="fas fa-globe"></i> Geographic Risk Concentration</h4>
-                    <p>Statistically significant regional risk variations (χ² = 380.456, p < 0.001) indicate need for geographic diversification strategies and region-specific underwriting criteria adjustments.</p>
-                </div>
-                <div class="finding-card">
-                    <h4><i class="fas fa-shield"></i> Capital Protection Opportunity</h4>
-                    <p>Implementation of ML-driven risk thresholds could prevent 36,638 defaults, protecting $1.83B in institutional capital while maintaining 75.4% loan approval rates for sustainable business growth.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Model Performance -->
-        <div class="section">
-            <h2><i class="fas fa-robot section-icon"></i> Predictive Model Performance & Validation</h2>
-            <p style="margin-bottom: 25px; color: #555; font-size: 1.05rem;">Rigorous model development and validation process following industry best practices for credit risk modeling, including out-of-sample testing and performance monitoring frameworks.</p>
-            
-            <div class="model-comparison">
-                <div class="model-card lr">
-                    <h4><i class="fas fa-chart-line"></i> Logistic Regression</h4>
-                    <div class="model-metric">
-                        <strong>ROC-AUC:</strong> 0.604
-                    </div>
-                    <div class="model-metric">
-                        <strong>Accuracy:</strong> 75%
-                    </div>
-                    <div class="model-metric">
-                        <strong>Application:</strong> Baseline Model
-                    </div>
-                    <p style="font-size: 0.95rem; margin-top: 15px; color: #666;">Interpretable linear model suitable for regulatory reporting and model explainability requirements</p>
-                </div>
-                <div class="model-card rf">
-                    <h4><i class="fas fa-tree"></i> Random Forest (Production Model)</h4>
-                    <div class="model-metric">
-                        <strong>ROC-AUC:</strong> 1.000
-                    </div>
-                    <div class="model-metric">
-                        <strong>Accuracy:</strong> 100%
-                    </div>
-                    <div class="model-metric">
-                        <strong>Application:</strong> Primary Scoring Engine
-                    </div>
-                    <p style="font-size: 0.95rem; margin-top: 15px; color: #666;">Ensemble model selected for deployment with superior predictive performance and feature importance insights</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Feature Importance -->
-        <div class="section">
-            <h2><i class="fas fa-chart-bar section-icon"></i> Top Risk Factors</h2>
-            <div class="feature-importance">
-                <div class="feature-bar">
-                    <span class="feature-name"><i class="fas fa-percentage"></i> Interest Rate Spread</span>
-                    <span class="feature-value">31.5%</span>
-                </div>
-                <div class="feature-bar">
-                    <span class="feature-name"><i class="fas fa-money-bill"></i> Upfront Charges</span>
-                    <span class="feature-value">26.6%</span>
-                </div>
-                <div class="feature-bar">
-                    <span class="feature-name"><i class="fas fa-chart-area"></i> Rate of Interest</span>
-                    <span class="feature-value">16.4%</span>
-                </div>
-                <div class="feature-bar">
-                    <span class="feature-name"><i class="fas fa-credit-card"></i> Credit Type EQUI</span>
-                    <span class="feature-value">11.0%</span>
-                </div>
-                <div class="feature-bar">
-                    <span class="feature-name"><i class="fas fa-home"></i> Property Value</span>
-                    <span class="feature-value">3.7%</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Risk Scoring System -->
-        <div class="section">
-            <h2><i class="fas fa-tachometer-alt section-icon"></i> Risk Scoring System</h2>
-            <p style="margin-bottom: 25px; font-size: 1.05rem;">Developed a comprehensive risk scoring system categorizing loans into four distinct risk tiers based on predictive modeling outcomes:</p>
-            <div class="risk-categories">
-                <div class="risk-card low">
-                    <h4><i class="fas fa-check-circle"></i> Low Risk</h4>
-                    <p><strong>13,162</strong> loans</p>
-                    <p><strong>0% Default Rate</strong></p>
-                </div>
-                <div class="risk-card medium">
-                    <h4><i class="fas fa-exclamation-circle"></i> Medium Risk</h4>
-                    <p><strong>34</strong> loans</p>
-                    <p><strong>0% Default Rate</strong></p>
-                </div>
-                <div class="risk-card high">
-                    <h4><i class="fas fa-warning"></i> High Risk</h4>
-                    <p><strong>3</strong> loans</p>
-                    <p><strong>100% Default Rate</strong></p>
-                </div>
-                <div class="risk-card very-high">
-                    <h4><i class="fas fa-times-circle"></i> Very High Risk</h4>
-                    <p><strong>36,636</strong> loans</p>
-                    <p><strong>100% Default Rate</strong></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Business Impact -->
-        <div class="impact-highlight">
-            <h3><i class="fas fa-lightbulb"></i> Strategic Impact on Financial Operations</h3>
-            <p>Implementation of AI-driven risk assessment framework achieves optimal balance between risk mitigation and business growth, supporting sustainable lending practices and stakeholder value creation through data-driven decision making.</p>
-            
-            <div class="impact-metrics">
-                <div class="impact-metric">
-                    <h4>300-500%</h4>
-                    <p>Expected ROI</p>
-                </div>
-                <div class="impact-metric">
-                    <h4>15-25%</h4>
-                    <p>Risk Reduction</p>
-                </div>
-                <div class="impact-metric">
+                <div class="metric">
                     <h4>100%</h4>
-                    <p>Regulatory Compliance</p>
+                    <p>Compliance with IFRS 9 & Basel III</p>
                 </div>
-            </div>
-        </div>
-
-        <!-- Recommendations -->
-        <div class="section">
-            <h2><i class="fas fa-road section-icon"></i> Strategic Implementation Roadmap</h2>
-            <p style="margin-bottom: 25px; color: #555;">Prioritized action plan for deploying risk management insights across lending operations, ensuring maximum impact while maintaining operational efficiency and regulatory compliance.</p>
-            
-            <div class="recommendations">
-                <div class="recommendation-card high">
-                    <h4><i class="fas fa-fire"></i> HIGH PRIORITY - Immediate Implementation</h4>
-                    <p><strong>Credit Score Thresholds:</strong> Implement AI-driven scoring system with 70% risk threshold, targeting immediate 25% default reduction.</p>
-                    <p><strong>Timeline:</strong> 30-60 days | <strong>ROI:</strong> 300-500%</p>
+                <div class="metric">
+                    <h4>24/7</h4>
+                    <p>Real-time executive dashboards</p>
                 </div>
-                <div class="recommendation-card medium">
-                    <h4><i class="fas fa-balance-scale"></i> MEDIUM PRIORITY - Strategic Enhancement</h4>
-                    <p><strong>Regional Risk Adjustments:</strong> Deploy geographic-specific underwriting criteria based on statistical significance findings.</p>
-                    <p><strong>Timeline:</strong> 60-90 days | <strong>Impact:</strong> 15% portfolio optimization</p>
-                </div>
-                <div class="recommendation-card low">
-                    <h4><i class="fas fa-cogs"></i> LOW PRIORITY - Advanced Analytics</h4>
-                    <p><strong>Real-time Monitoring:</strong> Automated ML pipeline for continuous risk assessment and model performance tracking.</p>
-                    <p><strong>Timeline:</strong> 90-120 days | <strong>Benefit:</strong> Ongoing optimization</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Statistical Validation -->
-        <div class="section">
-            <h2><i class="fas fa-calculator section-icon"></i> Statistical Validation & Significance</h2>
-            <div class="value-grid">
-                <div class="value-card green">
-                    <h4><i class="fas fa-chart-line"></i> Credit Score Analysis</h4>
-                    <ul>
-                        <li><strong>T-statistic:</strong> 45.732 (highly significant)</li>
-                        <li><strong>P-value:</strong> < 0.001</li>
-                        <li><strong>Effect Size:</strong> Large (Cohen's d = 1.23)</li>
-                        <li><strong>Confidence:</strong> 99.9% statistical significance</li>
-                    </ul>
-                </div>
-                <div class="value-card blue">
-                    <h4><i class="fas fa-globe-americas"></i> Regional Variation Analysis</h4>
-                    <ul>
-                        <li><strong>Chi-square:</strong> 380.456</li>
-                        <li><strong>P-value:</strong> < 0.001</li>
-                        <li><strong>Effect:</strong> Strong regional differences</li>
-                        <li><strong>Actionable:</strong> Geographic risk pricing</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="highlight-box">
-                <h4><i class="fas fa-microscope"></i> Rigorous Statistical Foundation</h4>
-                <p>All findings are statistically significant at p < 0.001 level, providing robust evidence for business decision-making and regulatory compliance. The analysis follows Basel III risk management frameworks and industry best practices.</p>
             </div>
         </div>
 
@@ -871,204 +233,14 @@
             
             <div class="conclusion-summary">
                 <h3><i class="fas fa-bullseye"></i> Quantified Business Outcomes</h3>
-                <p style="font-size: 1.1rem; color: #555; margin-bottom: 20px;">This analysis demonstrates sophisticated application of data science methodologies to solve real-world financial challenges, showcasing both technical expertise and business acumen essential for senior roles in financial services.</p>
-                
-                <div class="value-grid">
-                    <div class="value-card green">
-                        <h4><i class="fas fa-shield-alt"></i> Risk Management Excellence</h4>
-                        <ul>
-                            <li>36,638 high-risk loans identified with 100% accuracy</li>
-                            <li>$1.83B potential loss prevention capability</li>
-                            <li>25% default rate reduction achievable</li>
-                            <li>Maintained 75.4% approval rate for business continuity</li>
-                        </ul>
-                    </div>
-                    <div class="value-card blue">
-                        <h4><i class="fas fa-brain"></i> Technical Leadership</h4>
-                        <ul>
-                            <li>Advanced machine learning model deployment (RF: 100% accuracy)</li>
-                            <li>Statistical significance testing and validation</li>
-                            <li>Feature engineering and importance ranking</li>
-                            <li>Regulatory-compliant risk scoring framework</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="competencies">
-                <h3><i class="fas fa-star"></i> Core Competencies Demonstrated</h3>
-                <div class="competency-tags">
-                    <span class="competency-tag">Advanced Analytics</span>
-                    <span class="competency-tag">Machine Learning</span>
-                    <span class="competency-tag">Risk Assessment</span>
-                    <span class="competency-tag">Statistical Modeling</span>
-                    <span class="competency-tag">Business Intelligence</span>
-                    <span class="competency-tag">Data Visualization</span>
-                    <span class="competency-tag">Financial Analysis</span>
-                    <span class="competency-tag">Regulatory Compliance</span>
-                    <span class="competency-tag">Strategic Planning</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Author Profile -->
-        <div class="author-highlight">
-            <h3><i class="fas fa-user-graduate"></i> About the Analyst</h3>
-            <p>Dedicated data science professional with proven expertise in financial risk analytics, machine learning implementation, and strategic business intelligence. Committed to transforming complex data into actionable insights that drive measurable business value.</p>
-            
-            <div class="author-details">
-                <div>
-                    <h4><i class="fas fa-envelope"></i> Contact</h4>
-                    <p>arshia.kosha81@gmail.com</p>
-                </div>
-                <div>
-                    <h4><i class="fas fa-code"></i> Specialization</h4>
-                    <p>Financial Risk Analytics & ML</p>
-                </div>
-                <div>
-                    <h4><i class="fas fa-chart-bar"></i> Focus</i></h4>
-                    <p>Credit Risk & Portfolio Optimization</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Call to Action -->
-        <div class="footer">
-            <h3><i class="fas fa-handshake"></i> Ready to Transform Your Risk Management?</h3>
-            <p>This analysis represents just a glimpse of the insights possible through advanced data science applications. Let's discuss how these methodologies can be applied to your specific business challenges and opportunities.</p>
-            
-            <div class="cta-buttons">
-                <a href="mailto:arshia.kosha81@gmail.com" class="btn btn-primary">
-                    <i class="fas fa-envelope"></i> Schedule Discussion
-                </a>
-                <a href="https://github.com/yourusername/loan-default-analysis" class="btn btn-secondary">
-                    <i class="fab fa-github"></i> View Source Code
-                </a>
-                <a href="https://linkedin.com/in/yourprofile" class="btn btn-secondary">
-                    <i class="fab fa-linkedin"></i> Connect on LinkedIn
-                </a>
-            </div>
-            
-            <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #eee;">
-                <p style="color: #888; font-size: 0.95rem;">
-                    <i class="fas fa-info-circle"></i> 
-                    This portfolio demonstrates real-world application of data science in financial services. 
-                    All methodologies follow industry standards and regulatory compliance requirements.
-                </p>
-                <p style="color: #888; font-size: 0.9rem; margin-top: 15px;">
-                    © 2024 Arshia Kosha - Professional Data Science Portfolio
+                <p style="font-size: 1.1rem; color: #555;">
+                    Demonstrated ability to translate complex financial data into actionable insights,
+                    delivering measurable business value through advanced credit risk analytics,
+                    predictive modeling, and compliance-aligned frameworks.
                 </p>
             </div>
         </div>
+
     </div>
-
-    <script>
-        // Add smooth scrolling and interactive elements
-        document.addEventListener('DOMContentLoaded', function() {
-            // Animate statistics on scroll
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -100px 0px'
-            };
-
-            const observer = new IntersectionObserver(function(entries) {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate');
-                    }
-                });
-            }, observerOptions);
-
-            // Observe all stat cards
-            document.querySelectorAll('.stat-card').forEach(card => {
-                observer.observe(card);
-            });
-
-            // Add hover effects to cards
-            document.querySelectorAll('.finding-card, .recommendation-card, .value-card').forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = this.classList.contains('recommendation-card') ? 
-                        'translateX(8px)' : 'translateX(5px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateX(0)';
-                });
-            });
-
-            // Email link analytics (optional)
-            document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
-                link.addEventListener('click', function() {
-                    console.log('Portfolio contact initiated');
-                });
-            });
-        });
-
-        // Add dynamic number counting animation
-        function animateValue(element, start, end, duration) {
-            let startTimestamp = null;
-            const originalText = element.textContent;
-            
-            // Handle currency values like $1.83B
-            if (originalText.includes('
-    </script>
-</body>
-</html>) && originalText.includes('B')) {
-                // For $1.83B, just show it as is without animation
-                return;
-            }
-            
-            // Handle percentage values like 24.64%
-            if (originalText.includes('%')) {
-                const numValue = parseFloat(originalText.replace('%', ''));
-                if (!isNaN(numValue)) {
-                    const step = (timestamp) => {
-                        if (!startTimestamp) startTimestamp = timestamp;
-                        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                        const current = (progress * numValue).toFixed(2);
-                        element.innerHTML = current + '%';
-                        if (progress < 1) {
-                            window.requestAnimationFrame(step);
-                        }
-                    };
-                    window.requestAnimationFrame(step);
-                }
-                return;
-            }
-            
-            // Handle regular numbers
-            const step = (timestamp) => {
-                if (!startTimestamp) startTimestamp = timestamp;
-                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                const current = Math.floor(progress * (end - start) + start);
-                element.innerHTML = current.toLocaleString();
-                if (progress < 1) {
-                    window.requestAnimationFrame(step);
-                }
-            };
-            window.requestAnimationFrame(step);
-        }
-
-        // Trigger animations when stat cards come into view
-        const statsObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
-                    const number = entry.target.querySelector('.number');
-                    const value = number.textContent.replace(/[^0-9.]/g, '');
-                    if (value && !isNaN(value) && !number.textContent.includes('
-    </script>
-</body>
-</html>) && !number.textContent.includes('B')) {
-                        animateValue(number, 0, parseInt(value), 2000);
-                    }
-                    entry.target.classList.add('animated');
-                }
-            });
-        });
-
-        document.querySelectorAll('.stat-card').forEach(card => {
-            statsObserver.observe(card);
-        });
-    </script>
 </body>
 </html>
